@@ -13,9 +13,13 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-
+    <link rel="stylesheet" href="{{ asset('frontend/css/fontawesome/all.min.css') }}">
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+    @if (config('app.locale') == 'ar')
+        <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap-rtl.css') }}">
+    @endif
 </head>
 
 <body>
@@ -57,6 +61,8 @@
             </div>
         </main>
     </div>
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('frontend/js/fontawesome/all.min.js') }}"></script>
 </body>
 
 </html>
