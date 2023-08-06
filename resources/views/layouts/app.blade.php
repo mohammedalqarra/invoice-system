@@ -41,10 +41,10 @@
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
                         <li class="nav-item px-2">
-                            <a class="btn btn-primary" href="#">Ar</a>
+                            <a class="btn btn-primary" href="{{ route('frontend_change_locale', 'ar') }}">Ar</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn btn-secondary" href="#">En</a>
+                            <a class="btn btn-secondary" href="{{ route('frontend_change_locale', 'en') }}">En</a>
                         </li>
                     </ul>
                 </div>

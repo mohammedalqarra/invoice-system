@@ -6,7 +6,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header d-flex">
-                <h2></h2>
+                {{ config('app.locale') }}
             </div>
         </div>
     </div>

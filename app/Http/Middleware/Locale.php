@@ -20,7 +20,7 @@ class Locale
     {
         if (config('locale.status')) {
             if (Session::has('locale') && array_key_exists(Session::get('locale'), config('locale.languages'))) {
-                App::setLocalization(Session::get('locale'));
+                App::setLocale(Session::get('locale'));
             }
         } else {
             $userLanguages = preg_split('/[,;]/', $request->server('HTTP_ACCEPT_LANGUAGE'));
