@@ -24,3 +24,6 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('' , [InvoiceController::class , 'index'])->name('index');
+
+
+Route::resource('/invoice', InvoiceController::class);
