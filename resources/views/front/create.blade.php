@@ -1,9 +1,16 @@
 @extends('layouts.app')
 @section('style')
-    <link rel="stylesheet" href="#">
+    <link rel="stylesheet" href="{{ asset('frontend/css/pickadate/classic.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/pickadate/classic.date.css') }}">
     @if (config('app.locale') == 'ar')
-        <link rel="stylesheet" href="#">
+        <link rel="stylesheet" href="{{ asset('frontend/css/pickadate/rtl.css') }}">
     @endif
+    <style>
+        form.from label.error,
+        label.error {
+            color: red;
+        }
+    </style>
 @endsection
 @section('content')
     <div class="row justify-content-center">
@@ -66,7 +73,7 @@
                             <div class="col-4">
                                 <div class="form-group">
                                     <label for="invoice_date">{{ __('frontend/frontend.invoice_date') }}</label>
-                                    <input type="text" name="invoice_date" class="form-control">
+                                    <input type="text" name="invoice_date" class="form-control pickdate">
                                     @error('invoice_date')
                                         <span class="help-block text-danger">{{ $message }}</span>
                                     @enderror
@@ -195,19 +202,36 @@
 @endsection
 
 @section('script')
+    <script src="{{ asset('frontend/js/form_validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/form_validation/additional-methods.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/form_validation/jquery.form.js') }}"></script>
+    <script src="{{ asset('frontend/js/pickadate/picker.date.js') }}"></script>
+    <script src="{{ asset('frontend/js/pickadate/picker.js') }}"></script>
+    @if (config('aap.locale') == 'ar')
+        <script src="{{ asset('frontend/js/form_validation/messages_ar.js') }}"></script>
+        <script src="{{ asset('frontend/js/pickadate/ar.js') }}"></script>
+    @endif
     <script>
         $(document).ready(function() {
+            $('.pickdate').pickadate({
+                format: 'yyyy-mm-dd',
+                selectMonth: true,
+                selectYear: true,
+                clear: 'Clear',
+                close: 'Ok',
+                closeOnSelect: true
+            });
             $('#invoice_details').on('keyup blur', '.quantity', function() {
                 let $row = $(this).closest('tr');
                 let quantity = $row.find('.quantity').val() || 0;
                 let unit_price = $row.find('.unit_price').val() || 0;
 
-                $row.find('.row_sub_total').val((quantity * unit_price).tofixed(2));
+                $row.find('.row_sub_total').val((quantity * unit_price).toFixed(2));
 
                 $('#sub_total').val(sum_total('.row_sub_total'));
-
                 $('#vat_value').val(calculate_vat());
                 $('#total_due').val(sum_due_total());
+
             });
 
             $('#invoice_details').on('keyup blur', '.unit_price', function() {
@@ -215,15 +239,18 @@
                 let quantity = $row.find('.quantity').val() || 0;
                 let unit_price = $row.find('.unit_price').val() || 0;
 
-                $row.find('.row_sub_total').val((quantity * unit_price).tofixed(2));
+                $row.find('.row_sub_total').val((quantity * unit_price).toFixed(2));
 
                 $('#sub_total').val(sum_total('.row_sub_total'));
-
                 $('#vat_value').val(calculate_vat());
                 $('#total_due').val(sum_due_total());
-
             });
 
+
+            $('#invoice_details').on('keyup blur', '.discount_type', function() {
+                $('#vat_value').val(calculate_vat());
+                $('#total_due').val(sum_due_total());
+            });
 
             $('#invoice_details').on('keyup blur', '.discount_value', function() {
                 $('#vat_value').val(calculate_vat());
@@ -231,11 +258,6 @@
             });
 
             $('#invoice_details').on('keyup blur', '.shipping', function() {
-                $('#vat_value').val(calculate_vat());
-                $('#total_due').val(sum_due_total());
-            });
-
-            $('#invoice_details').on('keyup blur', '.discount_type', function() {
                 $('#vat_value').val(calculate_vat());
                 $('#total_due').val(sum_due_total());
             });
@@ -248,7 +270,6 @@
                 });
                 return sum.toFixed(2);
             }
-
             let calculate_vat = function() {
                 let sub_totalVal = $('.sub_total').val() || 0;
                 let discount_type = $('.discount_type').val();
@@ -266,7 +287,6 @@
                 // }else{
                 //     let discountVal = 0 ;
                 // }
-
                 let discountVal = discount_value != 0 ? discount_type == 'percentage' ? sub_totalVal * (
                     discount_value / 100) : discount_value : 0;
 
@@ -274,11 +294,10 @@
 
                 return vatVal.toFixed(2);
             }
-
             let sum_due_total = function() {
                 let sum = 0;
-                let sum_totalVal = $('.sub_total').val() || 0;
-                let discount_type = $('.discount_type').val() || 0;
+                let sub_totalVal = $('.sub_total').val() || 0;
+                let discount_type = $('.discount_type').val();
                 let discount_value = parseFloat($('.discount_value').val()) || 0;
                 let discountVal = discount_value != 0 ? discount_type == 'percentage' ? sub_totalVal * (
                     discount_value / 100) : discount_value : 0;
@@ -294,39 +313,20 @@
                 return sum.toFixed(2);
             }
 
+            $(document).on('click', '.btn_add', function () {
+        let trCount = $('#invoice_details').find('tr.cloning_row:last').length;
+        let numberIncr = trCount > 0 ? parseInt($('#invoice_details').find('tr.cloning_row:last').attr('id')) + 1 : 0;
 
-            $(document).on('click', '.btn_add', function() {
-                let trCount = $('#invoice_details').find('tr.cloning_row:last').length;
-
-                let number = trCount > 0 ? parseInt($('#invoice_details').find('tr.cloning_row:last').attr(
-                    'id')) + 1 : 0;
-
-                $('#invoice_details').find('tobody').append($('' +
-                    '<tr class="cloning_row" id="' + numberIncr + '">' +
-                    '<td><button type="button" class="btn btn-danger btn-sm delegated-btn"><i class="fa fa-minus"></i></button></td>' +
-                    '<td>' +
-                    ' <input type="text" name="product_name[0]" id="product_name" class="product_name form-control">' +
-                    '</td>' +
-                    '<td>' +
-                    '<select name="unit[0]" id="unit" class="unit from-control">' +
-                    '<option></option>' +
-                    '<option value="piece">{{ __('frontend/frontend.piece') }}</option>' +
-                    '<option value="g">{{ __('frontend/frontend.gram') }}</option>' +
-                    '<option value="kg">{{ __('frontend/frontend.kilo_gram') }}</option>' +
-                    '</select>' +
-                    '</td>' +
-                    '<td>' +
-                    '<input type="number" name="quantity[0]" step="0.01" id="quantity" class="quantity form-control">' +
-                    '</td>' +
-                    '<td>' +
-                    '<input type="number" name="unit_price[0]" step="0.01" id="unit_price" class="unit_price form-control">' +
-                    '</td>' +
-                    '<td>' +
-                    '<input type="number" step="0.01" name="row_sub_total[0]" id="row_sub_total" class="row_sub_total form-control" readonly="readonly">' +
-                    '</td>' +
-                    '</tr>'));
-            });
-
+        $('#invoice_details').find('tbody').append($('' +
+            '<tr class="cloning_row" id="' + numberIncr + '">' +
+            '<td><button type="button" class="btn btn-danger btn-sm     delegated-btn"><i class="fa fa-minus"></i></button></td>' +
+            '<td><input type="text" name="product_name[' + numberIncr + ']" class="product_name form-control"></td>' +
+            '<td><select name="unit[' + numberIncr + ']" class="unit form-control"><option></option><option value="piece">Piece</option><option value="g">Gram</option><option value="kg">Kilo Gram</option></select></td>' +
+            '<td><input type="number" name="quantity[' + numberIncr + ']" step="0.01" class="quantity form-control"></td>' +
+            '<td><input type="number" name="unit_price[' + numberIncr + ']" step="0.01" class="unit_price form-control"></td>' +
+            '<td><input type="number" name="row_sub_total[' + numberIncr + ']" step="0.01" class="row_sub_total form-control" readonly="readonly"></td>' +
+            '</tr>'));
+    });
             $(document).on('click', '.delegated-btn', function(e) {
                 e.preventDefault();
                 $(this).parent().parent().remove();
@@ -334,6 +334,60 @@
                 $('#vat_value').val(calculate_vat());
                 $('#total_due').val(sum_due_total());
             });
-        })
+
+            $('form').on('submit', function(e) {
+                $('input.product_name').each(function() {
+                    $(this).rules("add", {
+                        required: true
+                    });
+                });
+                $('select.unit').each(function() {
+                    $(this).rules("add", {
+                        required: true
+                    });
+                });
+                $('input.quantity').each(function() {
+                    $(this).rules("add", {
+                        required: true
+                    });
+                });
+                $('input.unit_price').each(function() {
+                    $(this).rules("add", {
+                        required: true
+                    });
+                });
+                $('input.row_sub_total').each(function() {
+                    $(this).rules("add", {
+                        required: true
+                    });
+                });
+                e.preventDefault();
+            });
+
+            $('form').validate({
+                rules: {
+                    'customer_name': {
+                        required: true
+                    },
+                    'customer_email': {
+                        required: true,
+                        email: true
+                    },
+                    'customer_mobile': {
+                        required: true,
+                        digits: true,
+                        minlength: 10,
+                        maxlength: 14
+                    },
+                    'company_name': {required: true},
+                    'invoice_number': {required: true , digits: true},
+                    'invoice_date': {required: true},
+                },
+                submitHandler: function(form) {
+                    form.submit();
+                }
+            });
+
+        });
     </script>
 @endsection
