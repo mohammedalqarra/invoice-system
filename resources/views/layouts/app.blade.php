@@ -20,6 +20,7 @@
     @if (config('app.locale') == 'ar')
         <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap-rtl.css') }}">
     @endif
+    @yield('style')
 </head>
 
 <body>
@@ -63,6 +64,7 @@
     </div>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('frontend/js/fontawesome/all.min.js') }}"></script>
+    @yield('script')
 </body>
 
 </html>
