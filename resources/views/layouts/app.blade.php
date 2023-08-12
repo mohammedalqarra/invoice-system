@@ -61,6 +61,7 @@
 
         <main class="py-4">
             <div class="container">
+                @include('partial.flash')
                 @yield('content')
             </div>
         </main>
@@ -69,6 +70,13 @@
     <script src="{{ asset('frontend/js/fontawesome/all.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/pickadate@3.6.3/lib/picker.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/pickadate@3.6.3/lib/picker.date.js"></script>
+<script>
+    $(function() {
+        $('#session-alert').fadeTo(2000,500).slideUP(500 , function (){
+            $('#session-alert').slideUp(500)
+        })
+    })
+</script>
     @yield('script')
 </body>
 

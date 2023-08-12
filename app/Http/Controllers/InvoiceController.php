@@ -31,6 +31,7 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         //
+        $data['customer_name'] = $request->customer_name;
         $data['customer_email'] =  $request->customer_email;
         $data['customer_mobile'] = $request->customer_mobile;
         $data['company_name'] =   $request->company_name;
@@ -41,7 +42,7 @@ class InvoiceController extends Controller
         $data['discount_value'] = $request->discount_value;
         $data['vat_value'] = $request->vat_value;
         $data['shipping'] = $request->shipping;
-        $data['grand_total'] = $request->total_due;
+        $data['total_due'] = $request->total_due;
 
         $invoice = Invoice::create($data);
 
