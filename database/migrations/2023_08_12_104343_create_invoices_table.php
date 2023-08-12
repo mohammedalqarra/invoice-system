@@ -18,13 +18,13 @@ return new class extends Migration
             $table->string('customer_mobile');
             $table->string('company_name');
             $table->string('invoice_number');
-            $table->string('invoice_date');
-            $table->string('sub_total' , 8 , 2)->default(0.00);
+            $table->date('invoice_date');
+            $table->decimal('sub_total', 8, 2)->default(0.00);
             $table->string('discount_type')->nullable();
-            $table->string('discount_value' , 8 , 2)->default(0.00);
-            $table->string('vat_value' , 8 , 2)->default(0.00);
-            $table->string('shipping' , 8 , 0)->default(0.00);
-            $table->string('total_due' , 8 , 0)->default(0.00);;
+            $table->decimal('discount_value', 8, 2)->default(0.00);
+            $table->decimal('vat_value', 8, 2)->default(0.00);
+            $table->decimal('shipping', 8, 2)->default(0.00);
+            $table->decimal('total_due', 8, 2)->default(0.00);
             $table->timestamps();
         });
     }
