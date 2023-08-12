@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -42,6 +43,8 @@ class InvoiceController extends Controller
         $data['shipping'] = $request->shipping;
         $data['grand_total'] = $request->total_due;
 
+        $invoice = Invoice::create($data);
+
         $details_list = [];
 
         $details_list = [];
@@ -53,6 +56,19 @@ class InvoiceController extends Controller
             $details_list[$i]['row_sub_total'] = $request->row_sub_total[$i];
         }
 
+        $details = $invoice->details()->createMany($details_list);
+
+        if ($details) {
+            return redirect()->back()->with([
+                'message' => __('Frontend/frontend.created_successfully'),
+                'alert-type' => 'success'
+            ]);
+        } else {
+            return redirect()->back()->with([
+                'message' => __('Frontend/frontend.created_failed'),
+                'alert-type' => 'danger'
+            ]);
+        }
     }
 
     /**
