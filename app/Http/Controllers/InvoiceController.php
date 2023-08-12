@@ -13,7 +13,8 @@ class InvoiceController extends Controller
     public function index()
     {
         //
-        return view('front.index');
+        $invoices = Invoice::orderBy('id' , 'desc')->paginate(10);
+        return view('front.index' , compact('invoices'));
     }
 
     /**
@@ -86,6 +87,7 @@ class InvoiceController extends Controller
     public function edit(string $id)
     {
         //
+        return view('frontend.edit');
     }
 
     /**
