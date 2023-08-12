@@ -45,7 +45,7 @@
                                             onclick="if (confirm('{{ __('Frontend/frontend.r_u_sure') }}')) { document.getElementById('delete-{{ $invoice->id }}').submit(); } else { return false; }"
                                             class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a> --}}
                                             <button class="btn btn-sm btn-danger btn-delete"><i class="fas fa-trash"></i></button>
-                                        <form action="{{ route('invoice.destroy', $invoice->id) }}" method="post"
+                                        <form  action="{{ route('invoice.destroy', $invoice->id) }}" method="post"
                                             id="delete-{{ $invoice->id }}" style="display: none;">
                                             @csrf
                                             @method('DELETE')

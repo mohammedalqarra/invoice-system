@@ -79,6 +79,8 @@ class InvoiceController extends Controller
     public function show(string $id)
     {
         //
+        $invoice = Invoice::findOrFail($id);
+        return view('front.show' , compact('invoice'));
     }
 
     /**
@@ -87,7 +89,8 @@ class InvoiceController extends Controller
     public function edit(string $id)
     {
         //
-        return view('frontend.edit');
+        $invoice = Invoice::findOrFail($id);
+        return view('front.edit' , compact('invoice'));
     }
 
     /**
@@ -104,5 +107,20 @@ class InvoiceController extends Controller
     public function destroy(string $id)
     {
         //
+        $invoice = Invoice::findOrFail($id);
+
+        if($invoice)
+        {
+            $invoice->delete();
+            return redirect()->route('invoice.index')->with([
+                'message' =>  __('Frontend/frontend.deleted_successfully'),
+                'alert-type' => 'success'
+            ]);
+        }else{
+            return redirect()->route('invoice.index')->with([
+                'message' => __('Frontend/frontend.deleted_failed'),
+                'alert-type' => 'danger'
+            ]);
+        }
     }
 }
