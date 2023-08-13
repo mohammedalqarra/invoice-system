@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.print')
 @section('style')
     <link rel="stylesheet" href="{{ asset('frontend/css/pickadate/classic.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/pickadate/classic.date.css') }}">
@@ -19,8 +19,6 @@
             <div class="card">
                 <div class="card-header">
                     <h2>{{ __('Frontend/frontend.invoice', ['invoice_number' => $invoice->invoice_number]) }}</h2>
-                    <a href="{{ route('invoice.index') }}" class="btn btn-primary ml-auto"><i class="fa fa-home"></i>
-                        {{ __('Frontend/frontend.back_to_invoice') }}</a>
                 </div>
 
                 <div class="card-body">
