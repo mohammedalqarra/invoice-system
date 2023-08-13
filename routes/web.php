@@ -33,7 +33,7 @@ Route::resource('/invoice', InvoiceController::class);
 
 Route::get('invoice/print/{id}' , [InvoiceController::class , 'print'])->name('invoice.print');
 
-Route::get('invoice/[df/{id}' , [InvoiceController::class , 'pdf'])->name('invoice.pdf');
+Route::get('invoice/pdf/{id}' , [InvoiceController::class , 'pdf'])->name('invoice.pdf');
 
 Route::get('change-language/{locale}', [GeneralController::class, 'changeLanguage'])->name('frontend_change_locale');
 

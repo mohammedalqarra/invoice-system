@@ -156,10 +156,13 @@ return [
     */
 
     'providers' => ServiceProvider::defaultProviders()->merge([
+
+        
         /*
          * Package Service Providers...
          */
 
+        Mccarlosen\LaravelMpdf\LaravelMpdfServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -168,6 +171,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
     ])->toArray(),
 
     /*
@@ -183,6 +187,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'PDF' => Mccarlosen\LaravelMpdf\Facades\LaravelMpdf::class
     ])->toArray(),
 
 ];
