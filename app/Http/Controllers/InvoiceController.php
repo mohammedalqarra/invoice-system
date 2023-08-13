@@ -172,4 +172,10 @@ class InvoiceController extends Controller
         $invoice = Invoice::findOrFail($id);
         return view('front.print', compact('invoice'));
     }
+
+    public function pdf($id)
+    {
+        $invoice = Invoice::findOrFail($id);
+        return view('front.pdf' , compact('invoice'));
+    }
 }

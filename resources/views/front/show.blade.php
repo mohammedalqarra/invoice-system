@@ -104,7 +104,7 @@
                     <div class="row">
                         <div class="col-12 text-center">
                             <a href="{{ route('invoice.print' , $invoice->id) }}" class="btn btn-primary btn-sm ml-auto"><i class="fa fa-print"></i>{{ __('frontend/frontend.print') }}</a>
-                            <a href="" class="btn btn-secondary   btn-sm ml-auto"><i class="fa fa-file-pdf"></i>{{ __('frontend/frontend.export_pdf') }}</a>
+                            <a href="{{ route('invoice.pdf' , $invoice->id) }}" class="btn btn-secondary   btn-sm ml-auto"><i class="fa fa-file-pdf"></i>{{ __('frontend/frontend.export_pdf') }}</a>
                             <a href="" class="btn btn-success  btn-sm ml-auto"><i class="fa fa-envelope"></i>{{ __('frontend/frontend.send_to_email') }}</a>
                         </div>
                     </div>
