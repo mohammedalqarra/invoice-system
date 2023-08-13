@@ -130,14 +130,15 @@ class InvoiceController extends Controller
 
         $details = $invoice->details()->createMany($details_list);
 
+
         if ($details) {
             return redirect()->back()->with([
-                'message' => __('Frontend/frontend.created_successfully'),
+                'message' => __('frontend/frontend.updated_successfully'),
                 'alert-type' => 'success'
             ]);
         } else {
             return redirect()->back()->with([
-                'message' => __('Frontend/frontend.created_failed'),
+                'message' => __('frontend/frontend.updated_failed'),
                 'alert-type' => 'danger'
             ]);
         }
