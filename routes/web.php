@@ -31,9 +31,10 @@ Route::resource('/invoice', InvoiceController::class);
 
 // Route::get('change-language/{locale}', ['as' => 'frontend_change_locale', 'uses' => 'GeneralController@changeLanguage']);
 
+Route::get('invoice/print/{id}' , [InvoiceController::class , 'print'])->name('invoice.print');
 
 Route::get('change-language/{locale}', [GeneralController::class, 'changeLanguage'])->name('frontend_change_locale');
 
-Auth::routes();
+// Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

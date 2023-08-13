@@ -46,7 +46,7 @@
                             </tr>
                         </table>
 
-                        <h3>{{  __('frontend/frontend.invoice_details') }}</h3>
+                        <h3>{{ __('frontend/frontend.invoice_details') }}</h3>
 
                         <table class="table">
                             <thead>
@@ -62,25 +62,25 @@
                             <tbody>
                                 @foreach ($invoice->details as $item)
                                     <tr>
-                                        <th>{{ $item->itration }}</th>
-                                        <th>{{ $item->product_name  }}</th>
-                                        <th>{{ $item->unitText() }}</th>
-                                        <th>{{ $item->quantity }}</th>
-                                        <th>{{ $item->unit_price }}</th>
-                                        <th>{{ $item->product_subtotal }}</th>
+                                        <td width="5%">{{ $item->itration }}</td>
+                                        <td width="35%">{{ $item->product_name }}</td>
+                                        <td width="10%">{{ $item->unitText() }}</td>
+                                        <td width="10%">{{ $item->quantity }}</td>
+                                        <td width="10%">{{ $item->unit_price }}</td>
+                                        <td>{{ $item->product_subtotal }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <td colspan="3"></td>
-                                        <th colspan="2">{{ __('frontend/frontend.sub_total') }}</th>
-                                        <td>{{ $invoice->sub_total }}</td>
+                                    <th colspan="2">{{ __('frontend/frontend.sub_total') }}</th>
+                                    <td>{{ $invoice->sub_total }}</td>
                                 </tr>
                                 <tr>
                                     <td colspan="3"></td>
-                                        <th colspan="2">{{ __('frontend/frontend.discount')}}</th>
-                                        <td>{{ $invoice->discountResult() }}</td>
+                                    <th colspan="2">{{ __('frontend/frontend.discount') }}</th>
+                                    <td>{{ $invoice->discountResult() }}</td>
                                 </tr>
                                 <tr>
                                     <td colspan="3"></td>
@@ -94,19 +94,11 @@
                                 </tr>
                                 <tr>
                                     <td colspan="3"></td>
-                                    <th colspan="2">{{ __('frontend/frontend.total_due')}}</th>
+                                    <th colspan="2">{{ __('frontend/frontend.total_due') }}</th>
                                     <td>{{ $invoice->total_due }}</td>
                                 </tr>
                             </tfoot>
                         </table>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12 text-center">
-                            <a href="{{ route('invoice.print' , $invoice->id) }}" class="btn btn-primary btn-sm ml-auto"><i class="fa fa-print"></i>{{ __('frontend/frontend.print') }}</a>
-                            <a href="" class="btn btn-secondary   btn-sm ml-auto"><i class="fa fa-file-pdf"></i>{{ __('frontend/frontend.export_pdf') }}</a>
-                            <a href="" class="btn btn-success  btn-sm ml-auto"><i class="fa fa-envelope"></i>{{ __('frontend/frontend.send_to_email') }}</a>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -115,14 +107,7 @@
 @endsection
 
 @section('script')
-    <script src="{{ asset('frontend/js/form_validation/jquery.form.js') }}"></script>
-    <script src="{{ asset('frontend/js/form_validation/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('frontend/js/form_validation/additional-methods.min.js') }}"></script>
-    <script src="{{ asset('frontend/js/pickadate/picker.js') }}"></script>
-    <script src="{{ asset('frontend/js/pickadate/picker.date.js') }}"></script>
-    @if (config('app.locale') == 'ar')
-        <script src="{{ asset('frontend/js/form_validation/messages_ar.js') }}"></script>
-        <script src="{{ asset('frontend/js/pickadate/ar.js') }}"></script>
-    @endif
-    <script src="{{ asset('frontend/js/custom.js') }}"></script>
+    <script>
+        window.print();
+    </script>
 @endsection

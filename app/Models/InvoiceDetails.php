@@ -15,4 +15,20 @@ class InvoiceDetails extends Model
     {
         return $this->belongsTo(Invoice::class , 'invoice_id', 'id');
     }
+
+    public function unitText()
+    {
+        if($this->unit == 'piece')
+        {
+            $text = __('frontend/frontend.piece');
+        }elseif ($this->unit == 'g')
+        {
+            $text = __('frontend/frontend.gram');
+        }elseif($this->unit == 'kg')
+        {
+            $text = __('frontend/frontend.kilo_gram');
+        }
+
+        return $text;
+    }
 }

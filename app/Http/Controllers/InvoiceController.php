@@ -165,4 +165,11 @@ class InvoiceController extends Controller
             ]);
         }
     }
+
+
+    public function print($id)
+    {
+        $invoice = Invoice::findOrFail($id);
+        return view('front.print', compact('invoice'));
+    }
 }
