@@ -38,11 +38,15 @@ class SendInvoice extends Mailable
     /**
      * Get the message content definition.
      */
-    public function content(): Content
+    public function build()
     {
-        return new Content(
-            view: 'view.name',
-        );
+        return $this->subject(__('Emails/emails.new_invoice'))->view('emails.send_invoice')
+        ->attach(public_path('assets/invoices/').$this->invoice->invoice_number.'.pdf')
+        ->with(['invoice' => $this->invoice]);
+
+        // return new Content(
+        //     view: 'view.name',
+        // );
     }
 
     /**
