@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
-use PDF;
+use Illuminate\Support\Facades\Route;
+
 class InvoiceController extends Controller
 {
     /**
@@ -175,7 +177,47 @@ class InvoiceController extends Controller
 
     public function pdf($id)
     {
-        $invoice = Invoice::findOrFail($id);
-        return view('front.pdf' , compact('invoice'));
+        $invoice = Invoice::findOrFail($id)->first();
+
+        $data['invoice_id']  = $invoice->invoice_id;
+        $data['invoice_date'] = $invoice->invoice_date;
+        $data['customer'] = [
+            __('frontend/frontend.customer_name') => $invoice->customer_name,
+            __('frontend/frontend.customer_mobile')  => $invoice->customer_mobile,
+            __('frontend/frontend.customer_email') => $invoice->customer_email,
+        ];
+
+        $items = [];
+
+        $invoice_details = $invoice->details()->get();
+
+        foreach ($invoice_details as $item) {
+            $items[] = [
+                'product_name' => $item->product_name,
+                'unit' => $item->unitText(),
+                'quantity' => $item->quantity,
+                'unit_price' => $item->unitPrice,
+                'row_sub_total'     => $item->row_sub_total,
+            ];
+        }
+
+        $data['items'] = $items;
+
+        $data['invoice_number']     = $invoice->invoice_number;
+        $data['created_at'] = $invoice->created_at->format('Y-m-d');
+        $data['sub_total']  = $invoice->sub_total;
+        $data['discount'] = $invoice->discountResult();
+        $data['vat_value'] = $invoice->vat_value;
+        $data['shipping']  = $invoice->shipping;
+        $data['total_due'] = $invoice->total_due;
+
+
+        $pdf = PDF::loadView('front.pdf', $data);
+        if (Route::currentRouteName() == 'invoice.pdf') {
+            return $pdf->stream($invoice->invoice_number.'.pdf');
+        } else {
+            $pdf->save(public_path('assets/invoices/').$invoice->invoice_number.'.pdf');
+            return $invoice->invoice_number.'.pdf';
+        }
     }
 }
