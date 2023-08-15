@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use PDF;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
+use App\Mail\SendInvoice;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 class InvoiceController extends Controller
@@ -219,5 +221,20 @@ class InvoiceController extends Controller
             $pdf->save(public_path('assets/invoices/').$invoice->invoice_number.'.pdf');
             return $invoice->invoice_number.'.pdf';
         }
+    }
+
+    public function send_to_email($id)
+    {
+        $invoice = Invoice::whereId($id)->first();
+
+        $this->pdf($id);
+
+        Mail::to($invoice->customer_email)->locale(config('app.locale'))->send(new SendInvoice($invoice));
+
+        return redirect()->route('invoice.index')->with([
+            'message' => __('frontend/frontend.sent_successfully'),
+            'alert-type' => 'success',
+        ]);
+
     }
 }
