@@ -214,13 +214,7 @@ class InvoiceController extends Controller
         $data['total_due'] = $invoice->total_due;
 
 
-        $pdf = PDF::loadView('front.pdf', $data);
-        if (Route::currentRouteName() == 'invoice.pdf') {
-            return $pdf->stream($invoice->invoice_number.'.pdf');
-        } else {
-            $pdf->save(public_path('assets/invoices/').$invoice->invoice_number.'.pdf');
-            return $invoice->invoice_number.'.pdf';
-        }
+        
     }
 
     public function send_to_email($id)
