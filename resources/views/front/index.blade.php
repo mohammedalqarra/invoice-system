@@ -11,6 +11,14 @@
     </style>
 @endsection
 @section('content')
+    <form action="{{ route('invoice.index') }}" method="get">
+        <div class="input-group mb-3">
+            <input type="text" name="invoice" class="form-control" placeholder="Search here..."
+                value="{{ request()->invoice }}">
+            <button class="btn btn-dark px-5" id="button-addon2">Search</button>
+        </div>
+    </form>
+
     <div class="row justify-content-center">
         <div class="col-12">
             <div class="card">
@@ -19,7 +27,6 @@
                     <a href="{{ route('invoice.create') }}" class="btn btn-primary ml-auto"><i class="fa fa-plus"></i>
                         {{ __('Frontend/frontend.create_invoice') }}</a>
                 </div>
-
 
                 <div class="table-responsive">
                     <table class="table card-table">
@@ -34,9 +41,10 @@
                         <tbody>
                             @foreach ($invoices as $invoice)
                                 <tr>
-                                    <td><a href="{{ route('invoice.show', $invoice->id) }}">{{ $invoice->customer_name }}</a>
+                                    <td><a
+                                            href="{{ route('invoice.show', $invoice->id) }}">{{ $invoice->customer_name }}</a>
                                     </td>
-                                    <td>{{ $invoice->invoice_date }}</td>
+                                    <td>{{ $invoice->created_at }}</td>
                                     <td>{{ $invoice->total_due }}</td>
                                     <td>
                                         <a href="{{ route('invoice.edit', $invoice->id) }}"
@@ -44,8 +52,9 @@
                                         {{-- <a href="javascript:void(0)"
                                             onclick="if (confirm('{{ __('Frontend/frontend.r_u_sure') }}')) { document.getElementById('delete-{{ $invoice->id }}').submit(); } else { return false; }"
                                             class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a> --}}
-                                            <button class="btn btn-sm btn-danger btn-delete"><i class="fas fa-trash"></i></button>
-                                        <form  action="{{ route('invoice.destroy', $invoice->id) }}" method="post"
+                                        <button class="btn btn-sm btn-danger btn-delete"><i
+                                                class="fas fa-trash"></i></button>
+                                        <form action="{{ route('invoice.destroy', $invoice->id) }}" method="post"
                                             id="delete-{{ $invoice->id }}" style="display: none;">
                                             @csrf
                                             @method('DELETE')

@@ -231,7 +231,7 @@ class InvoiceController extends Controller
 
         Mail::to($invoice->customer_email)->locale(config('app.locale'))->send(new SendInvoice($invoice));
 
-        return redirect()->route('front.index')->with([
+        return redirect()->route('invoice.index')->with([
             'message' => __('frontend/frontend.sent_successfully'),
             'alert-type' => 'success',
         ]);
