@@ -35,7 +35,7 @@ Route::get('invoice/print/{id}' , [InvoiceController::class , 'print'])->name('i
 
 Route::get('invoice/pdf/{id}' , [InvoiceController::class , 'pdf'])->name('invoice.pdf');
 
-Route::get('invoice/send_to_email{id}' , [InvoiceController::class , 'send_to_email'])->name('invoice.send_to_email');
+Route::get('invoice/send_to_email/{id}' , [InvoiceController::class , 'send_to_email'])->name('invoice.send_to_email');
 
 Route::get('change-language/{locale}', [GeneralController::class, 'changeLanguage'])->name('frontend_change_locale');
 

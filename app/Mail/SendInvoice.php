@@ -28,12 +28,12 @@ class SendInvoice extends Mailable
     /**
      * Get the message envelope.
      */
-    public function envelope(): Envelope
-    {
-        return new Envelope(
-            subject: 'Send Invoice',
-        );
-    }
+    // public function envelope(): Envelope
+    // {
+    //     return new Envelope(
+    //         subject: 'Send Invoice',
+    //     );
+    // }
 
     /**
      * Get the message content definition.
@@ -54,8 +54,8 @@ class SendInvoice extends Mailable
      *
      * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
-    public function attachments(): array
-    {
-        return [];
-    }
+    // public function attachments(): array
+    // {
+    //     return [];
+    // }
 }
