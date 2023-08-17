@@ -26,6 +26,9 @@
                     <h2>{{ __('Frontend/frontend.invoices') }}</h2>
                     <a href="{{ route('invoice.create') }}" class="btn btn-primary ml-auto"><i class="fa fa-plus"></i>
                         {{ __('Frontend/frontend.create_invoice') }}</a>
+
+                        <a href="{{ route('invoice.trash') }}" class="btn btn-primary ml-auto"><i class="fa fa-trash    "></i>
+                            {{ __('Frontend/frontend.trash_invoice') }}</a>
                 </div>
 
                 <div class="table-responsive">

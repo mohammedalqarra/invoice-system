@@ -59,5 +59,7 @@ return
         'deleted_successfully'      => 'Deleted Successfully',
         'deleted_failed'            => 'Deleted Failed',
         'sent_successfully'         => 'Email Sent Successfully',
+        'successfully'              => 'successfully',
+        'trash_invoice'             => 'Trash Invoice',
 
     ];

@@ -151,11 +151,11 @@ class InvoiceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Invoice $invoice)
     {
         //
-        $invoice = Invoice::findOrFail($id);
-
+     //   $invoice = Invoice::findOrFail($id);
+        $invoice->delete();
         if ($invoice) {
             $invoice->delete();
             return redirect()->route('invoice.index')->with([
@@ -216,10 +216,10 @@ class InvoiceController extends Controller
 
         $pdf = PDF::loadView('front.pdf', $data);
         if (Route::currentRouteName() == 'invoice.pdf') {
-            return $pdf->stream($invoice->invoice_number.'.pdf');
+            return $pdf->stream($invoice->invoice_number . '.pdf');
         } else {
-            $pdf->save(public_path('assets/invoices/').$invoice->invoice_number.'.pdf');
-            return $invoice->invoice_number.'.pdf';
+            $pdf->save(public_path('assets/invoices/') . $invoice->invoice_number . '.pdf');
+            return $invoice->invoice_number . '.pdf';
         }
     }
 
@@ -235,6 +235,35 @@ class InvoiceController extends Controller
             'message' => __('frontend/frontend.sent_successfully'),
             'alert-type' => 'success',
         ]);
+    }
 
+    public function trash()
+    {
+        $invoice = Invoice::onlyTrashed()->paginate();
+
+        return view('front.trash', compact('invoice'));
+    }
+
+    public function restore(Request $request, $id)
+    {
+        $invoice = Invoice::onlyTrashed()->findOrFail($id);
+        $invoice->restore();
+
+        return redirect()->route('index')->with([
+            'message' => __('frontend/frontend.successfully'),
+            'alert-type' => 'success',
+        ]);
+    }
+
+
+    public function force_delete($id)
+    {
+        $invoice = Invoice::onlyTrashed()->findOrFail($id);
+        $invoice()->forceDelete();
+
+        return redirect()->route('front.trash')->with([
+            'message' => 'category Delete forever!',
+            'alert-type' => 'success',
+        ]);
     }
 }

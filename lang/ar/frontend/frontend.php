@@ -59,4 +59,5 @@ return
         'deleted_successfully'      => 'تم الحذف بنجاح',
         'deleted_failed'            => 'تم فشل في عملية الحذف',
         'sent_successfully'         => 'تم الإرسال بنجاح',
+        'successfully'              => 'بنجاح',
     ];
